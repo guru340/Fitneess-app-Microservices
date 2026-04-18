@@ -19,6 +19,7 @@ public class UserService {
         }
         User user=new User();
         user.setFirstName(request.getFirstname());
+        user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setLastname(request.getLastname());
         user.setLastname(request.getLastname());
@@ -52,5 +53,9 @@ public class UserService {
         userResponse.setUpdatedAt(user.getUpdatedAt());
 
         return userResponse;
+    }
+
+    public  Boolean existdBYId(String userId) {
+        return userRepo.existsById(userId);
     }
 }
