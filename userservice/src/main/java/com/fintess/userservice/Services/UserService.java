@@ -5,9 +5,11 @@ import com.fintess.userservice.dto.RegisterRequest;
 import com.fintess.userservice.dto.UserResponse;
 import com.fintess.userservice.model.User;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -56,6 +58,7 @@ public class UserService {
     }
 
     public  Boolean existdBYId(String userId) {
+        log.info("Calling user service",userId);
         return userRepo.existsById(userId);
     }
 }
