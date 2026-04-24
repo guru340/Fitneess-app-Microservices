@@ -16,6 +16,8 @@ public class Recommdentation {
     private String id;
     private  String acitivityId;
     private String userId;
+    private String recommendation;
+    private String activityType;
     private List<String> improvements;
     private List<String> suggestion;
     private List<String> safety;
