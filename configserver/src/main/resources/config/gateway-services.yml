@@ -1,22 +1,24 @@
 spring:
   cloud:
     gateway:
-      routes:
-        - id: user-services
-          uri: lb://USER-SERVICES
-          predicates:
-            - Path=/api/users/**
+      server:
+        webflux:
+          routes:
+            - id: user-services
+              uri: lb://USER-SERVICES
+              predicates:
+                - Path=/api/users/**
 
-        - id: activity-service
-          uri: lb://ACTIVITY-SERVICE
-          predicates:
-            - Path=/api/activities/**
+            - id: activity-service
+              uri: lb://ACTIVITY-SERVICE
+              predicates:
+                - Path=/api/activities/**
 
 
-        - id: ai-services
-          uri: lb://AI-SERVICES
-          predicates:
-            - Path=/api/recommendations/**
+            - id: ai-services
+              uri: lb://AI-SERVICES
+              predicates:
+                - Path=/api/recommendations/**
 
 server:
   port: 8080
