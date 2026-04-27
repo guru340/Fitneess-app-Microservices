@@ -16,3 +16,4 @@ public interface UserRepo extends JpaRepository<User,Long> {
 
     User findByEmail(@NotBlank(message = "Email is required") @Email(message = "Invalid email Format") String email);
 }
+//
