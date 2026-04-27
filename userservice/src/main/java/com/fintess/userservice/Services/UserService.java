@@ -17,11 +17,23 @@ public class UserService {
     public UserResponse register(RegisterRequest request){
 
         if(userRepo.existsByEmail( request.getEmail())){
-            throw new RuntimeException("User Already Exists");
+            User existinguser=userRepo.findByEmail(request.getEmail());
+            UserResponse userResponse=new UserResponse();
+            userResponse.setId(existinguser.getId());
+            userResponse.setRole(existinguser.getRole());
+            userResponse.setFirstName(existinguser.getFirstName());
+            userResponse.setLastname(existinguser.getLastname());
+            userResponse.setEmail(existinguser.getEmail());
+            userResponse.setPassword(existinguser.getPassword());
+            userResponse.setCreatedAT(existinguser.getCreatedAT());
+            userResponse.setUpdatedAt(existinguser.getUpdatedAt());
+
+            return userResponse;
         }
         User user=new User();
         user.setFirstName(request.getFirstname());
         user.setEmail(request.getEmail());
+        user.setKeyclockId(request.getKeyclockId());
         user.setPassword(request.getPassword());
         user.setLastname(request.getLastname());
         user.setLastname(request.getLastname());
@@ -59,6 +71,6 @@ public class UserService {
 
     public  Boolean existdBYId(String userId) {
         log.info("Calling user service",userId);
-        return userRepo.existsById(userId);
+        return userRepo.existsBykeyclockId(userId);
     }
 }

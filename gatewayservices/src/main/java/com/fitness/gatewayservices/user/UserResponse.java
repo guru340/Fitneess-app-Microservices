@@ -1,10 +1,7 @@
-package com.fintess.userservice.dto;
+package com.fitness.gatewayservices.user;
 
-import com.fintess.userservice.model.UserRole;
-import jakarta.persistence.*;
+
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +13,7 @@ public class UserResponse {
     private String keyclockId;
     private String password;
     private String lastname;
-    private UserRole role=UserRole.USER;
+
     private LocalDateTime createdAT;
     private LocalDateTime updatedAt;
 }
