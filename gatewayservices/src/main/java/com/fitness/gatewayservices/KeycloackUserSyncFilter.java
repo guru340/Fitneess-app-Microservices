@@ -27,6 +27,9 @@ public class KeycloackUserSyncFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String  userId=exchange.getRequest().getHeaders().getFirst("X-USER-ID");
         String token=exchange.getRequest().getHeaders().getFirst("Authorization");
+        if (token == null || !token.startsWith("Bearer ")) {
+            return chain.filter(exchange);
+        }
         RegisterRequest registerRequest=getUserDetails(token);
         if(userId==null){
             userId= registerRequest.getKeyclockId();

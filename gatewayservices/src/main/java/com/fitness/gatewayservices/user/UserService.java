@@ -34,7 +34,7 @@ public class UserService {
 
         log.info("Calling User Registration for {}",registerRequest.getEmail());
 
-        return userserviceWebclient.post().uri("/api/users/registar")
+        return userserviceWebclient.post().uri("/api/users/register")
                 .bodyValue(registerRequest)
                 .retrieve().bodyToMono(UserResponse.class).onErrorResume(WebClientResponseException.class, e->{
                      if(e.getStatusCode()== HttpStatus.BAD_REQUEST) {

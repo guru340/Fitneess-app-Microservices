@@ -18,12 +18,17 @@ public class UserService {
 
         if(userRepo.existsByEmail( request.getEmail())){
             User existinguser=userRepo.findByEmail(request.getEmail());
+            if (existinguser.getKeyclockId() == null && request.getKeyclockId() != null) {
+                existinguser.setKeyclockId(request.getKeyclockId());
+                existinguser = userRepo.save(existinguser);
+            }
             UserResponse userResponse=new UserResponse();
             userResponse.setId(existinguser.getId());
             userResponse.setRole(existinguser.getRole());
             userResponse.setFirstName(existinguser.getFirstName());
             userResponse.setLastname(existinguser.getLastname());
             userResponse.setEmail(existinguser.getEmail());
+            userResponse.setKeyclockId(existinguser.getKeyclockId());
             userResponse.setPassword(existinguser.getPassword());
             userResponse.setCreatedAT(existinguser.getCreatedAT());
             userResponse.setUpdatedAt(existinguser.getUpdatedAt());
@@ -45,6 +50,7 @@ public class UserService {
         userResponse.setFirstName(saveduer.getFirstName());
         userResponse.setLastname(saveduer.getLastname());
         userResponse.setEmail(saveduer.getEmail());
+        userResponse.setKeyclockId(saveduer.getKeyclockId());
         userResponse.setPassword(saveduer.getPassword());
         userResponse.setCreatedAT(saveduer.getCreatedAT());
         userResponse.setUpdatedAt(saveduer.getUpdatedAt());
@@ -62,6 +68,7 @@ public class UserService {
         userResponse.setFirstName(user.getFirstName());
         userResponse.setLastname(user.getLastname());
         userResponse.setEmail(user.getEmail());
+        userResponse.setKeyclockId(user.getKeyclockId());
         userResponse.setPassword(user.getPassword());
         userResponse.setCreatedAT(user.getCreatedAT());
         userResponse.setUpdatedAt(user.getUpdatedAt());
@@ -71,7 +78,7 @@ public class UserService {
 
     public  Boolean existdBYId(String userId) {
         log.info("Calling user service",userId);
-        return userRepo.existsBykeyclockId(userId);
+            return userRepo.existsBykeyclockId(userId);
     }
 }
 //
