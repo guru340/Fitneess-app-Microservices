@@ -18,7 +18,7 @@ public class UserService {
 
         if(userRepo.existsByEmail( request.getEmail())){
             User existinguser=userRepo.findByEmail(request.getEmail());
-            if (existinguser.getKeyclockId() == null && request.getKeyclockId() != null) {
+            if (request.getKeyclockId() != null && !request.getKeyclockId().equals(existinguser.getKeyclockId())) {
                 existinguser.setKeyclockId(request.getKeyclockId());
                 existinguser = userRepo.save(existinguser);
             }

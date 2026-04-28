@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Document(collation = "recommendations")
+@Document(collection = "recommendations")
 @Data
 @Builder
 public class Recommdentation {

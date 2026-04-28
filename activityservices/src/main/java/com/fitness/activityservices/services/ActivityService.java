@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ActivityService {
@@ -69,4 +72,15 @@ public class ActivityService {
 
     }
 
+    public  List<ActivityResponse> getUserActivites(String userId) {
+       List<Activity> activityList=serviceRepo.findByUserId(userId);
+       return activityList.stream().map(this::mapTOresponse)
+               .collect(Collectors.toList());
+    }
+
+    public  ActivityResponse getActivityById(String activityId) {
+        return serviceRepo.findById(activityId)
+                .map(this::mapTOresponse)
+                .orElseThrow(()->new RuntimeException("Activity not found with id:" +activityId));
+    }
 }

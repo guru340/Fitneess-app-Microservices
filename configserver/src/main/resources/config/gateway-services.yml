@@ -3,6 +3,23 @@ spring:
     gateway:
       server:
         webflux:
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - http://localhost:5173
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders:
+                  - '*'
+                exposedHeaders:
+                  - Authorization
+                  - X-USER-ID
+                allowCredentials: true
           routes:
             - id: user-services
               uri: lb://USER-SERVICES

@@ -22,12 +22,14 @@ import java.util.List;
 public class ActvityaiServices {
 
     private final GroqServices groqServices;
+    private final AIRepository aiRepository;
 
     public Recommdentation generateRecommendation(Activity activity){
         String prompt=createPromptForActivity(activity);
         String AIresponse=groqServices.getRecommendations(prompt);
         log.info("RESPONSE FROM AI {}",AIresponse);
-        return processAIResponse(activity,AIresponse);
+        Recommdentation recommdentation = processAIResponse(activity,AIresponse);
+        return aiRepository.save(recommdentation);
     }
 
     private Recommdentation processAIResponse(Activity activity, String aIresponse) {
