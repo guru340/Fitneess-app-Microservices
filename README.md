@@ -14,24 +14,26 @@ This project is designed to simulate production-level microservices architecture
 
 ⚙️ Tech Stack
 🔹 Backend
-Java 26
-Spring Boot
-Spring Cloud (Gateway, Eureka)
-Spring AI
-REST APIs
-Kafka 
-MicroServices
-Oauth2
+🚀 Backend
+☕ Java 21+ (modern, high-performance backend)
+🌱 Spring Boot (rapid application development)
+☁️ Spring Cloud (Gateway, Eureka – service discovery & routing)
+🤖 Spring AI (AI-powered features & integrations)
+🔐 OAuth2 & Security (secure authentication & authorization)
+🔗 REST APIs (scalable communication between services)
+📨 Apache Kafka (event-driven architecture & messaging)
+🧩 Microservices Architecture (modular & scalable system design)
 
 🔹 Frontend
-  React.js 
+  ⚛️ React.js (modern UI development)
+  🔄 Redux (state management)
+  🌐 React Router (client-side routing)
 
 🔹 Database
-MongoDB/ PostgreSQL
+ 🍃 MongoDB (NoSQL – flexible schema)
+  🐘 PostgreSQL (relational database for structured data)
 
 🔹 Tools
-Git & GitHub
-Maven
-Postman
-React-Redux
-React-Router
+🧑‍💻 Git & GitHub (version control & collaboration)
+📦 Maven (dependency management & build tool)
+📬 Postman (API testing & debugging)
