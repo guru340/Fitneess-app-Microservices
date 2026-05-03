@@ -28,3 +28,4 @@ public class ReccommdenationController {
         return ResponseEntity.ok(recommandationService.getactivityrecommendation(activityId));
     }
 }
+// 
