@@ -1,0 +1,75 @@
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { addActivity } from '../services/api'
+
+
+const ActivityForm = ({ onActivityAdded }) => {
+    const navigate = useNavigate();
+
+    const [activity, setActivity] = useState({
+        type: "RUNNING", duration: '', calories: '',
+        additionalMetrics: {}
+    });
+
+    const getActivityId = (activityResponse) =>
+        activityResponse?.id ?? activityResponse?.Id ?? activityResponse?._id ?? activityResponse?._Id ?? activityResponse?.activityId;
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await addActivity(activity);
+            const savedActivity = response.data;
+            const activityId = getActivityId(savedActivity);
+
+            setActivity({ type: "RUNNING", duration: '', calories: '', additionalMetrics: {} });
+
+            if (activityId) {
+                navigate(`/activities/${activityId}`, {
+                    state: {
+                        activity: savedActivity,
+                        hasActivityId: true,
+                    },
+                });
+            } else {
+                onActivityAdded?.();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    
+  return (
+    <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4 }}>
+    <FormControl fullWidth sx={{mb: 2}}>
+        <InputLabel>Activity Type</InputLabel>
+        <Select
+            value={activity.type}
+            onChange={(e) => setActivity({...activity, type: e.target.value})}>
+                <MenuItem value="RUNNING">Running</MenuItem>
+                <MenuItem value="WALKING">Walking</MenuItem>
+                <MenuItem value="CYCLING">Cycling</MenuItem>
+            </Select>
+    </FormControl>
+    <TextField fullWidth
+                label="Duration (Minutes)"
+                type='number'
+                sx={{ mb: 2}}
+                value={activity.duration}
+                onChange={(e) => setActivity({...activity, duration: e.target.value})}/>
+
+<TextField fullWidth
+                label="Calories Burned"
+                type='number'
+                sx={{ mb: 2}}
+                value={activity.calories}
+                onChange={(e) => setActivity({...activity, calories: e.target.value})}/>
+
+<Button type='submit' variant='contained'>
+    Add Activity
+</Button>
+  </Box>
+  )
+}
+
+export default ActivityForm
