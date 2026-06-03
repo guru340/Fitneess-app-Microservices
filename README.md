@@ -1,7 +1,7 @@
 # 🏋️ FitTrack – Fitness Microservices Platform
 
 A **scalable full-stack fitness tracking application** built using **Spring Boot Microservices Architecture**.  
-This project demonstrates real-world backend engineering concepts like **API Gateway, Service Discovery, and distributed system design**.
+This project demonstrates real-world backend engineering concepts like **API Gateway, Service Discovery, and distributed system design**..
 
 ---
 
