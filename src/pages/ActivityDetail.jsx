@@ -1,11 +1,23 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom'
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  Container,
+  Divider,
+  Stack,
+  Typography,
+} from '@mui/material'
 import {
   getActivityDetail,
   getActivityRecommendation,
   getUserRecommendations,
 } from '../services/api'
-import { Alert, Box, Card, CardContent, CircularProgress, Divider, Typography } from '@mui/material'
 
 const getRecommendationActivityId = (recommendation) =>
   recommendation?.activityId ?? recommendation?.acitivityId
@@ -22,6 +34,29 @@ const findBestRecommendation = (recommendations, activity) => {
     new Date(b.createdAt ?? 0) - new Date(a.createdAt ?? 0)
   )[0]
 }
+
+const formatType = (type = '') =>
+  type.toLowerCase().replace(/^\w/, (letter) => letter.toUpperCase())
+
+const InsightList = ({ title, items }) => (
+  <Box className="insight-section">
+    <Typography variant="h6">{title}</Typography>
+    {items.length > 0 ? (
+      <Stack spacing={1.25} sx={{ mt: 1.5 }}>
+        {items.map((item, index) => (
+          <Box key={index} className="insight-item">
+            <span>{index + 1}</span>
+            <Typography>{item}</Typography>
+          </Box>
+        ))}
+      </Stack>
+    ) : (
+      <Typography color="text.secondary" sx={{ mt: 1 }}>
+        No guidance available for this section yet.
+      </Typography>
+    )}
+  </Box>
+)
 
 const ActivityDetail = () => {
   const { id } = useParams()
@@ -117,7 +152,14 @@ const ActivityDetail = () => {
   }, [activity, hasActivityId, id])
 
   if (!activity) {
-    return <Typography>Loading...</Typography>
+    return (
+      <Container maxWidth="lg" sx={{ py: 6 }}>
+        <Box className="loading-row">
+          <CircularProgress size={22} />
+          <Typography color="text.secondary">Loading activity...</Typography>
+        </Box>
+      </Container>
+    )
   }
 
   const calories = activity.caloriesBurned ?? activity.calories
@@ -129,62 +171,76 @@ const ActivityDetail = () => {
   const safety = recommendation?.safety ?? []
 
   return (
-    <Box sx={{ maxWidth: 800, mx: 'auto', p: 2 }}>
-      <Card sx={{ mb: 2 }}>
-        <CardContent>
-          <Typography variant="h5" gutterBottom>Activity Details</Typography>
-          <Typography>Type: {activity.type}</Typography>
-          <Typography>Duration: {activity.duration} minutes</Typography>
-          <Typography>Calories Burned: {calories}</Typography>
-          <Typography>Date: {activityDate}</Typography>
-        </CardContent>
-      </Card>
+    <Container maxWidth="lg" sx={{ py: { xs: 3, md: 5 } }}>
+      <Button component={RouterLink} to="/activities" variant="text" sx={{ mb: 2 }}>
+        Back to dashboard
+      </Button>
 
-      <Card>
-        <CardContent>
-          <Typography variant="h5" gutterBottom>AI Recommendation</Typography>
+      <Box className="detail-grid">
+        <Card className="activity-detail-card">
+          <CardContent>
+            <Stack spacing={2.5}>
+              <Box>
+                <Chip label={formatType(activity.type)} color="primary" />
+                <Typography variant="h4" sx={{ mt: 2 }}>
+                  Activity details
+                </Typography>
+                <Typography color="text.secondary">Logged in FITTRACK on {activityDate}</Typography>
+              </Box>
 
-          {recommendationLoading && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CircularProgress size={20} />
-              <Typography>Loading AI recommendation...</Typography>
+              <Box className="detail-stat-grid">
+                <Box>
+                  <Typography className="detail-stat-value">{activity.duration}</Typography>
+                  <Typography className="detail-stat-label">Minutes</Typography>
+                </Box>
+                <Box>
+                  <Typography className="detail-stat-value">{calories}</Typography>
+                  <Typography className="detail-stat-label">Calories</Typography>
+                </Box>
+              </Box>
+            </Stack>
+          </CardContent>
+        </Card>
+
+        <Card className="recommendation-card">
+          <CardContent>
+            <Box className="section-heading">
+              <Box>
+                <Typography variant="h5">AI coaching</Typography>
+                <Typography color="text.secondary">Personalized recommendations from your FITTRACK AI service.</Typography>
+              </Box>
+              <Chip label={recommendation ? 'Ready' : 'Pending'} color={recommendation ? 'success' : 'default'} />
             </Box>
-          )}
 
-          {!recommendationLoading && recommendationError && (
-            <Alert severity="info">{recommendationError}</Alert>
-          )}
+            {recommendationLoading && (
+              <Box className="loading-row">
+                <CircularProgress size={22} />
+                <Typography color="text.secondary">Loading AI recommendation...</Typography>
+              </Box>
+            )}
 
-          {!recommendationLoading && recommendation && (
-            <>
-              <Typography variant="h6">Analysis</Typography>
-              <Typography paragraph>{recommendation.recommendation}</Typography>
+            {!recommendationLoading && recommendationError && (
+              <Alert severity="info">{recommendationError}</Alert>
+            )}
 
-              <Divider sx={{ my: 2 }} />
+            {!recommendationLoading && recommendation && (
+              <Stack spacing={3}>
+                <Box className="analysis-panel">
+                  <Typography variant="h6">Analysis</Typography>
+                  <Typography>{recommendation.recommendation}</Typography>
+                </Box>
 
-              <Typography variant="h6">Improvements</Typography>
-              {improvements.map((item, index) => (
-                <Typography key={index} paragraph>{item}</Typography>
-              ))}
+                <Divider />
 
-              <Divider sx={{ my: 2 }} />
-
-              <Typography variant="h6">Suggestions</Typography>
-              {suggestions.map((item, index) => (
-                <Typography key={index} paragraph>{item}</Typography>
-              ))}
-
-              <Divider sx={{ my: 2 }} />
-
-              <Typography variant="h6">Safety Guidelines</Typography>
-              {safety.map((item, index) => (
-                <Typography key={index} paragraph>{item}</Typography>
-              ))}
-            </>
-          )}
-        </CardContent>
-      </Card>
-    </Box>
+                <InsightList title="Improvements" items={improvements} />
+                <InsightList title="Suggestions" items={suggestions} />
+                <InsightList title="Safety Guidelines" items={safety} />
+              </Stack>
+            )}
+          </CardContent>
+        </Card>
+      </Box>
+    </Container>
   )
 }
 

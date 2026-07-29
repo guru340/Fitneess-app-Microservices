@@ -19,7 +19,7 @@ const authSlice = createSlice({
       localStorage.setItem('token',action.payload.token);
       localStorage.setItem('userId',action.payload.user.sub);
     },
-    logout:(state,action)=> {
+    logout:(state)=> {
       state.user=null;
       state.token=null;
       state.userId=null;
