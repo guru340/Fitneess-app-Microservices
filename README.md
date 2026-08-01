@@ -232,4 +232,4 @@ docker compose down
 
 ---
 
-If you find this project helpful, consider giving it a ⭐ on GitHub.
+If you find this project helpful, consider giving it a ⭐ on GitHub..
