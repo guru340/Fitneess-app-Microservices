@@ -102,7 +102,7 @@ Fitness-App-Microservices/
 4. Configuration is fetched from the Config Server.
 5. Business logic is processed within the selected microservice.
 6. Data is persisted or retrieved from the database.
-7. The response is returned to the client via the Gateway.
+7. The response is returned to the client via the Gateway..
 
 ---
 
