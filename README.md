@@ -13,7 +13,7 @@ This application adopts a **microservices architecture** to separate business fu
 ## Tech Stack
 
 ### Backend
-- Java 21
+- Java 25
 - Spring Boot
 - Spring Cloud
 - Spring Data JPA
